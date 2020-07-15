@@ -1,4 +1,5 @@
-raw = LOAD 'hdfs://cm:9000/uhadoop2020/patosdepana/data-deis-100k.tsv' USING PigStorage('\t') AS 
+
+raw = LOAD 'hdfs://cm:9000/uhadoop2020/patosdepana/data-deis.tsv' USING PigStorage('\t') AS 
     (id_fallecido, anho_def, fecha_def, glosa_sexo, 
     edad_cant, glosa_edad_tipo, glosa_est_civil, glosa_nivel_ins,
     glosa_ocupacion, glosa_local_def, glosa_reg_res, glosa_comuna_residencia,
@@ -31,4 +32,4 @@ bebes_count_causa = JOIN bebes_count BY edad_pair, max_anho_causa BY anho;
 
 bebes_count_causa_por_anho = FOREACH bebes_count_causa GENERATE $1, $0, ($4, $2), CONCAT((chararray)ROUND((float) $2/$0 * 100), '%');
 
-STORE bebes_count INTO '/uhadoop2020/patosdepana/bebes/';
+STORE bebes_count INTO '/uhadoop2020/patosdepana/results/bebes/';
