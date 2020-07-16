@@ -1,11 +1,11 @@
--- Cantidad de muertos entre 18 y 40 años, agrupados por su estado civil
+-- Cantidad de muertos y causas de personas entre 18 y 40 años, agrupados por su estado civil
 raw = LOAD 'hdfs://cm:9000/uhadoop2020/patosdepana/data-deis.tsv' USING PigStorage('\t') AS 
     (id_fallecido, anho_def, fecha_def, glosa_sexo, 
     edad_cant, glosa_edad_tipo, glosa_est_civil, glosa_nivel_ins,
     glosa_ocupacion, glosa_local_def, glosa_reg_res, glosa_comuna_residencia,
     glosa_categoria_diag1, glosa_capitulo_diag1);
 
-anhos = FILTER raw BY (glosa_edad_tipo == 'Edad en años') AND (edad_cant >= 18) AND (edad_cant < 40) AND (anho_def >= 1997);
+anhos = FILTER raw BY (glosa_edad_tipo == 'Edad en anhos') AND (edad_cant >= 18) AND (edad_cant < 40) AND (anho_def >= 1997);
 
 data = FOREACH anhos GENERATE glosa_est_civil, glosa_categoria_diag1;
 

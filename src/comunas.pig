@@ -1,4 +1,5 @@
-raw = LOAD 'hdfs://cm:9000/uhadoop2020/patosdepana/data-deis-100k.tsv' USING PigStorage('\t') AS 
+-- Top de causa de muerte en las comunas de la Región Metropolitana.
+raw = LOAD 'hdfs://cm:9000/uhadoop2020/patosdepana/data-deis.tsv' USING PigStorage('\t') AS 
     (id_fallecido, anho_def, fecha_def, glosa_sexo, 
     edad_cant, glosa_edad_tipo, glosa_est_civil, glosa_nivel_ins,
     glosa_ocupacion, glosa_local_def, glosa_reg_res, glosa_comuna_residencia,

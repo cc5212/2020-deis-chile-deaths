@@ -1,3 +1,4 @@
+-- Top 3 causas de muertes agrupadas por región
 raw = LOAD 'hdfs://cm:9000/uhadoop2020/patosdepana/data-deis.tsv' USING PigStorage('\t') AS 
     (id_fallecido, anho_def, fecha_def, glosa_sexo, 
     edad_cant, glosa_edad_tipo, glosa_est_civil, glosa_nivel_ins,

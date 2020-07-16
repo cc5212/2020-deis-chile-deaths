@@ -1,4 +1,4 @@
-
+-- Top 3 de causas de muertes para bebes (menor que un año) agrupadas por año.
 raw = LOAD 'hdfs://cm:9000/uhadoop2020/patosdepana/data-deis.tsv' USING PigStorage('\t') AS 
     (id_fallecido, anho_def, fecha_def, glosa_sexo, 
     edad_cant, glosa_edad_tipo, glosa_est_civil, glosa_nivel_ins,
@@ -6,7 +6,7 @@ raw = LOAD 'hdfs://cm:9000/uhadoop2020/patosdepana/data-deis.tsv' USING PigStora
     glosa_categoria_diag1, glosa_capitulo_diag1);
 
 
-bebes = FILTER raw BY glosa_edad_tipo != 'Edad en años';
+bebes = FILTER raw BY glosa_edad_tipo != 'Edad en anhos';
 
 edad = FOREACH bebes GENERATE anho_def, edad_cant, glosa_categoria_diag1;
 
@@ -24,7 +24,7 @@ anho_grouped = GROUP count_causa_anho BY anho;
 
 max_anho_causa = FOREACH anho_grouped {
     ord = ORDER count_causa_anho BY count_causa DESC;
-    top = LIMIT ord 1;
+    top = LIMIT ord 3;
     GENERATE FLATTEN(top);
 };
 
@@ -32,4 +32,4 @@ bebes_count_causa = JOIN bebes_count BY edad_pair, max_anho_causa BY anho;
 
 bebes_count_causa_por_anho = FOREACH bebes_count_causa GENERATE $1, $0, ($4, $2), CONCAT((chararray)ROUND((float) $2/$0 * 100), '%');
 
-STORE bebes_count INTO '/uhadoop2020/patosdepana/results/bebes/';
+STORE bebes_count_causa_por_anho INTO '/uhadoop2020/patosdepana/results/bebes/';

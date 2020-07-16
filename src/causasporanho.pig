@@ -1,3 +1,4 @@
+-- Top 3 de causas de muerte por año
 raw = LOAD 'hdfs://cm:9000/uhadoop2020/patosdepana/data-deis.tsv' USING PigStorage('\t') AS 
     (id_fallecido, anho_def, fecha_def, glosa_sexo, 
     edad_cant, glosa_edad_tipo, glosa_est_civil, glosa_nivel_ins,
@@ -16,8 +17,8 @@ anho_grouped = GROUP count_causa_anho BY anho; -- (año, {(count_causa, anho , c
 
 max_anho_causa = FOREACH anho_grouped {
     ord = ORDER count_causa_anho BY count_causa DESC;
-    top = LIMIT ord 1;
+    top = LIMIT ord 3;
     GENERATE FLATTEN(top);
 };
 
-STORE max_anho_causa INTO '/uhadoop2020/patosdepana/results/causaporanho/';
+STORE max_anho_causa INTO '/uhadoop2020/patosdepana/results/causasporanho/';
